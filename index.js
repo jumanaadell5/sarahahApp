@@ -9,7 +9,4 @@ import bootstrap from './src/utils/app.controller.js';
  const port = process.env.PORT || 3000;
 
  bootstrap(app , express)
- app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-
-    });
+ export default app;
