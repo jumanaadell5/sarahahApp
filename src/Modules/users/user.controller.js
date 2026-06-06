@@ -1,0 +1,15 @@
+ import { Router  } from "express";
+import * as US from "./user.service.js";
+import * as auth from "../../middleware/auth.js";
+import { validation } from "../../middleware/validation.js";
+import { freezeAccountSchema, shareProfileSchema, signInSchema, signUpSchema, updatePasswordSchema, updateProfileSchema } from "./user.validation.js";
+ const userRouter = Router();
+  userRouter.post("/signUp",validation(signUpSchema), US.signUp);
+  userRouter.post("/signIn", validation(signInSchema),US.signIn);
+  userRouter.get("/profile", auth.authentication,auth.authorization(Object.values(auth.roles)), US.getProfile);
+  userRouter.get("/profile/shareProfile/:id",validation(shareProfileSchema), US.shareProfile);
+  userRouter.get("/confirmEmail/:token", US.confirmEmail);
+  userRouter.patch("/update", auth.authentication,validation(updateProfileSchema),US.updateProfile);
+  userRouter.patch("/update/password",auth.authentication,validation(updatePasswordSchema),US.updatePassword);
+  userRouter.delete("/freezeAccount",auth.authentication,validation(freezeAccountSchema),US.freezeAccount);
+ export default userRouter;
